@@ -7,15 +7,22 @@ ziel_port="22"  # Standard SSH-Port
 
 # Port-Weiterleitungen: Format: lokaler_port:ziel_ip:ziel_port
 port_weiterleitungen=(
-    "4000:localhost:4000"
-    "5000:localhost:5000"
-    "8030:localhost:8030"
-    "9000:localhost:9000"
-    "8545:localhost:8545"
+    "4000:94.16.104.19:4000"
+    "5000:94.16.104.19:5000"
+    "8030:94.16.104.19:8030"
+    "9000:94.16.104.19:9000"
+    "8545:94.16.104.19:8545"
 )
 
-# SSH-Befehl für den Reverse SSH-Tunnel
-ssh_befehl="autossh -M 0 -N -o 'ServerAliveInterval 30' -o 'ServerAliveCountMax 3' -R ${port_weiterleitungen[@]} -i /home/perpetuum/.ssh/id_rsa ${ziel_benutzer}@${ziel_server} -p ${ziel_port}"
+# Konvertiere das Array der Portweiterleitungen in ein String
+port_weiterleitungen_string=""
+for weiterleitung in "${port_weiterleitungen[@]}"; do
+    port_weiterleitungen_string+=" -R $weiterleitung"
+done
+
+# SSH-Befehl für den Reverse SSH-Tunnel mit Portweiterleitungen
+ssh_befehl="autossh -M 0 -N -o ServerAliveInterval=30 -o ServerAliveCountMax=3 $port_weiterleitungen_string -i /home/perpetuum/.ssh/id_rsa ${ziel_benutzer}@${ziel_server} -p ${ziel_port}"
+
 
 # Tunnel aufbauen
 echo "Starte Reverse SSH-Tunnel zu $ziel_server..."
