@@ -20,7 +20,7 @@ for weiterleitung in "${port_weiterleitungen[@]}"; do
 done
 
 # SSH-Befehl für den Reverse SSH-Tunnel mit Portweiterleitungen
-ssh_befehl="autossh -f -T -M 9999 -N -o ServerAliveInterval=30 -o ServerAliveCountMax=3 $port_weiterleitungen_string -i /home/perpetuum/.ssh/id_rsa ${ziel_benutzer}@${ziel_server}
+ssh_befehl="autossh -f -T -M 9999 -N -o ServerAliveInterval=30 -o ServerAliveCountMax=3 $port_weiterleitungen_string -i /home/perpetuum/.ssh/id_rsa ${ziel_benutzer}@${ziel_server}"
 
 
 # Tunnel aufbauen
